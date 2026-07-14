@@ -66,6 +66,20 @@
   ::-webkit-scrollbar { width: 10px; }
   ::-webkit-scrollbar-track { background: #f1f5f9; }
   ::-webkit-scrollbar-thumb { background: #0a1b33; border-radius: 999px; }
+
+  /* Parallax background images */
+  .parallax-wrap { overflow: hidden; }
+  .parallax-img { will-change: transform; transform: translate3d(0,0,0) scale(1.18); transition: transform .05s linear; }
+
+  /* Service detail modal */
+  #service-modal { visibility: hidden; opacity: 0; transition: opacity .3s ease, visibility 0s linear .3s; }
+  #service-modal.is-open { visibility: visible; opacity: 1; transition: opacity .3s ease; }
+  #service-modal .modal-panel { transform: translateY(24px) scale(.97); transition: transform .35s cubic-bezier(.16,1,.3,1); }
+  #service-modal.is-open .modal-panel { transform: translateY(0) scale(1); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fade-up, .parallax-img, #service-modal, #service-modal .modal-panel { transition: none !important; }
+  }
 </style>
 </head>
 
@@ -127,11 +141,11 @@
 <!-- ============================================================ -->
 <section id="inicio" class="relative min-h-screen flex items-center overflow-hidden">
 
-  <div class="absolute inset-0 -z-10">
+  <div class="absolute inset-0 -z-10 parallax-wrap">
     <!-- INICIO MARCADOR DE IMAGEN: Hero Section (Sugerencia: Puerto industrial con contenedores de carga) -->
-    <img src="https://images.unsplash.com/photo-1670121180530-cfcba4438038?auto=format&fit=crop&w=1920&q=80"
+    <img data-parallax data-speed="0.35" src="https://images.unsplash.com/photo-1670121180530-cfcba4438038?auto=format&fit=crop&w=1920&q=80"
          alt="Un gran buque de carga en un muelle portuario"
-         class="w-full h-full object-cover">
+         class="parallax-img w-full h-full object-cover">
     <!-- FIN MARCADOR DE IMAGEN -->
     <div class="absolute inset-0 bg-gradient-to-b from-navy-950/95 via-navy-900/85 to-navy-950/95"></div>
     <div class="absolute inset-0 bg-navy-950/30"></div>
@@ -241,7 +255,7 @@
       </p>
     </div>
 
-    <div class="grid md:grid-cols-2 gap-8">
+    <div class="grid md:grid-cols-2 gap-8 stagger">
       <div class="fade-up bg-white rounded-2xl shadow-lg hover:shadow-2xl border-t-4 border-navy-900 p-10 transition-all duration-300 hover:-translate-y-1">
         <div class="w-14 h-14 rounded-xl bg-navy-900/5 flex items-center justify-center mb-6">
           <i class="fa-solid fa-bullseye text-2xl text-navy-900"></i>
@@ -272,7 +286,7 @@
         <h3 class="mt-3 text-2xl sm:text-3xl font-extrabold text-navy-950">Industrias que exigen precisión</h3>
       </div>
 
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 stagger">
         <div class="fade-up flex flex-col items-center text-center gap-4 group">
           <div class="w-20 h-20 rounded-full bg-navy-900 flex items-center justify-center group-hover:bg-gold-500 transition-colors duration-300 shadow-md">
             <i class="fa-solid fa-mountain text-2xl text-gold-400 group-hover:text-navy-950 transition-colors duration-300"></i>
@@ -320,7 +334,7 @@
       </p>
     </div>
 
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 stagger">
 
       <div class="fade-up group bg-slate-50 rounded-2xl p-9 border border-slate-100 hover:border-gold-500/40 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
         <div class="w-16 h-16 rounded-xl bg-navy-900 flex items-center justify-center mb-7 group-hover:bg-gold-500 transition-colors duration-300">
@@ -333,9 +347,9 @@
           Operaciones de izaje con grúas certificadas para equipos, maquinaria y estructuras de
           gran tonelaje, planificadas con estudio de carga previo. Nuestro sello diferencial.
         </p>
-        <a href="#contacto" class="inline-flex items-center gap-2 text-navy-900 font-semibold text-sm group-hover:text-gold-600 transition-colors">
+        <button type="button" data-service="izaje" class="service-more inline-flex items-center gap-2 text-navy-900 font-semibold text-sm group-hover:text-gold-600 transition-colors">
           Conocer más <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-        </a>
+        </button>
       </div>
 
       <div class="fade-up group bg-slate-50 rounded-2xl p-9 border border-slate-100 hover:border-gold-500/40 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
@@ -349,9 +363,9 @@
           Coordinación integral para proyectos industriales: desde el análisis de ruta hasta
           la entrega en sitio, incluyendo permisos especiales.
         </p>
-        <a href="#contacto" class="inline-flex items-center gap-2 text-navy-900 font-semibold text-sm group-hover:text-gold-600 transition-colors">
+        <button type="button" data-service="project" class="service-more inline-flex items-center gap-2 text-navy-900 font-semibold text-sm group-hover:text-gold-600 transition-colors">
           Conocer más <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-        </a>
+        </button>
       </div>
 
       <div class="fade-up group bg-slate-50 rounded-2xl p-9 border border-slate-100 hover:border-gold-500/40 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
@@ -363,9 +377,9 @@
           Embarques de contenedor completo (FCL) o carga consolidada (LCL) con red de navieras
           aliadas y trazabilidad de punta a punta.
         </p>
-        <a href="#contacto" class="inline-flex items-center gap-2 text-navy-900 font-semibold text-sm group-hover:text-gold-600 transition-colors">
+        <button type="button" data-service="maritimo" class="service-more inline-flex items-center gap-2 text-navy-900 font-semibold text-sm group-hover:text-gold-600 transition-colors">
           Conocer más <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-        </a>
+        </button>
       </div>
 
       <div class="fade-up group bg-slate-50 rounded-2xl p-9 border border-slate-100 hover:border-gold-500/40 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
@@ -377,9 +391,9 @@
           Envíos internacionales urgentes o de alto valor, con gestión de documentación y
           seguimiento en tiempo real desde origen hasta destino.
         </p>
-        <a href="#contacto" class="inline-flex items-center gap-2 text-navy-900 font-semibold text-sm group-hover:text-gold-600 transition-colors">
+        <button type="button" data-service="aereo" class="service-more inline-flex items-center gap-2 text-navy-900 font-semibold text-sm group-hover:text-gold-600 transition-colors">
           Conocer más <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-        </a>
+        </button>
       </div>
 
       <div class="fade-up group bg-slate-50 rounded-2xl p-9 border border-slate-100 hover:border-gold-500/40 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
@@ -393,9 +407,9 @@
           Traslado de carga sobredimensionada y convencional con flota propia y aliada,
           rutas evaluadas y permisos gestionados de punta a punta.
         </p>
-        <a href="#contacto" class="inline-flex items-center gap-2 text-navy-900 font-semibold text-sm group-hover:text-gold-600 transition-colors">
+        <button type="button" data-service="terrestre" class="service-more inline-flex items-center gap-2 text-navy-900 font-semibold text-sm group-hover:text-gold-600 transition-colors">
           Conocer más <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-        </a>
+        </button>
       </div>
 
       <div class="fade-up group bg-slate-50 rounded-2xl p-9 border border-slate-100 hover:border-gold-500/40 hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
@@ -407,9 +421,9 @@
           Agenciamiento aduanero, asesoría en comercio exterior y pólizas de seguro internacional
           para que tu carga esté cubierta en cada tramo.
         </p>
-        <a href="#contacto" class="inline-flex items-center gap-2 text-navy-900 font-semibold text-sm group-hover:text-gold-600 transition-colors">
+        <button type="button" data-service="aduanas" class="service-more inline-flex items-center gap-2 text-navy-900 font-semibold text-sm group-hover:text-gold-600 transition-colors">
           Conocer más <i class="fa-solid fa-arrow-right text-xs transition-transform group-hover:translate-x-1"></i>
-        </a>
+        </button>
       </div>
 
     </div>
@@ -430,7 +444,7 @@
       </h2>
     </div>
 
-    <div class="grid md:grid-cols-4 gap-10 relative">
+    <div class="grid md:grid-cols-4 gap-10 relative stagger">
       <div class="hidden md:block absolute top-8 left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-gold-500/40 to-transparent"></div>
 
       <div class="fade-up relative text-center">
@@ -534,7 +548,7 @@
         <!-- FIN MARCADOR DE IMAGEN -->
       </div>
 
-      <div class="order-1 lg:order-2 grid sm:grid-cols-2 gap-5">
+      <div class="order-1 lg:order-2 grid sm:grid-cols-2 gap-5 stagger">
         <div class="fade-up bg-white/5 border border-white/10 rounded-xl p-6 hover:border-gold-500/50 transition-colors duration-300">
           <i class="fa-solid fa-truck-ramp-box text-gold-500 text-2xl mb-4"></i>
           <p class="text-xs uppercase tracking-widest text-slate-400 font-semibold">Tipos de Grúa</p>
@@ -565,11 +579,11 @@
 <!-- 8. CONTACTO / CTA FINAL -->
 <!-- ============================================================ -->
 <section id="contacto" class="relative py-24 overflow-hidden">
-  <div class="absolute inset-0 -z-10">
+  <div class="absolute inset-0 -z-10 parallax-wrap">
     <!-- INICIO MARCADOR DE IMAGEN: Contacto / CTA Final (Sugerencia: Grúa industrial pesada operando, tono oscuro/dramático) -->
-    <img src="https://images.unsplash.com/photo-1660884121477-2be490bc2a08?auto=format&fit=crop&w=1920&q=80"
+    <img data-parallax data-speed="0.3" src="https://images.unsplash.com/photo-1660884121477-2be490bc2a08?auto=format&fit=crop&w=1920&q=80"
          alt="Grúa industrial levantando un contenedor de carga"
-         class="w-full h-full object-cover">
+         class="parallax-img w-full h-full object-cover">
     <!-- FIN MARCADOR DE IMAGEN -->
     <div class="absolute inset-0 bg-navy-950/93"></div>
   </div>
@@ -672,6 +686,30 @@
 </a>
 
 <!-- ============================================================ -->
+<!-- MODAL DE DETALLE DE SERVICIO -->
+<!-- ============================================================ -->
+<div id="service-modal" class="fixed inset-0 z-[60] flex items-center justify-center p-4 sm:p-6" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div id="service-modal-backdrop" class="absolute inset-0 bg-navy-950/70 backdrop-blur-sm"></div>
+
+  <div class="modal-panel relative bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[85vh] overflow-y-auto">
+    <button type="button" id="service-modal-close" aria-label="Cerrar" class="absolute top-5 right-5 w-9 h-9 rounded-full bg-slate-100 hover:bg-gold-500 hover:text-navy-950 flex items-center justify-center text-slate-500 transition-colors">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+    <div class="p-8 sm:p-10">
+      <div id="modal-icon" class="w-16 h-16 rounded-xl bg-navy-900 flex items-center justify-center mb-6 text-gold-400 text-2xl"></div>
+      <h3 id="modal-title" class="text-2xl font-extrabold text-navy-950 mb-4"></h3>
+      <p id="modal-description" class="text-slate-600 leading-relaxed mb-6"></p>
+      <p class="text-xs font-bold uppercase tracking-widest text-gold-600 mb-3">Incluye</p>
+      <ul id="modal-bullets" class="space-y-3 mb-8"></ul>
+      <a href="#contacto" id="modal-cta" class="inline-flex items-center justify-center gap-2 w-full sm:w-auto bg-gold-500 hover:bg-gold-600 text-navy-950 font-bold px-7 py-3.5 rounded-full shadow-gold-glow transition-all duration-300">
+        Solicitar cotización <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
 <!-- JAVASCRIPT -->
 <!-- ============================================================ -->
 <script>
@@ -739,6 +777,116 @@
     });
   }, { threshold: 0.5 });
   counters.forEach(c => counterObserver.observe(c));
+
+  // Staggered reveal delays for grouped cards
+  document.querySelectorAll('.stagger').forEach(group => {
+    Array.from(group.children).forEach((child, i) => {
+      child.style.transitionDelay = (i * 90) + 'ms';
+    });
+  });
+
+  // Parallax on full-bleed background images
+  const parallaxEls = document.querySelectorAll('[data-parallax]');
+  let ticking = false;
+  function updateParallax() {
+    parallaxEls.forEach(el => {
+      const speed = parseFloat(el.dataset.speed || '0.3');
+      const rect = el.parentElement.getBoundingClientRect();
+      const offset = rect.top * speed;
+      el.style.transform = 'translate3d(0,' + offset + 'px,0) scale(1.18)';
+    });
+    ticking = false;
+  }
+  function onScrollParallax() {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }
+  if (parallaxEls.length && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    window.addEventListener('scroll', onScrollParallax, { passive: true });
+    updateParallax();
+  }
+
+  // Service detail modal
+  const SERVICES_DATA = {
+    izaje: {
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h6"/><path d="M6 21V9l9-5v10"/><path d="M15 4l6 3v4l-6-3"/><path d="M9 12h6"/><path d="M18 11v4"/></svg>',
+      title: 'Izaje de Carga Pesada',
+      description: 'Operaciones de izaje con grúas certificadas para equipos, maquinaria y estructuras de gran tonelaje. Cada operación parte de un estudio de carga previo y un plan de izaje documentado, nuestro sello diferencial frente a un agente de carga tradicional.',
+      bullets: ['Estudio de carga y plan de izaje', 'Grúas telescópicas, de torre y crawler certificadas', 'Personal rigger y señalero certificado', 'Pólizas de seguro para la operación']
+    },
+    project: {
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 3 6.5 12 11l9-4.5L12 2z"/><path d="M3 6.5V17.5L12 22l9-4.5V6.5"/><path d="M12 11v11"/></svg>',
+      title: 'Project Cargo',
+      description: 'Coordinación integral para proyectos industriales: desde el análisis de ruta y factibilidad hasta la entrega en sitio, incluyendo permisos especiales y coordinación multimodal cuando el proyecto lo exige.',
+      bullets: ['Análisis de ruta y factibilidad', 'Gestión de permisos especiales', 'Coordinación multimodal (marítimo, terrestre, izaje)', 'Supervisión en sitio de punta a punta']
+    },
+    maritimo: {
+      icon: '<i class="fa-solid fa-ship"></i>',
+      title: 'Transporte Marítimo (FCL/LCL)',
+      description: 'Embarques de contenedor completo (FCL) o carga consolidada (LCL) con una red de navieras aliadas. Gestionamos la reserva, la documentación y la trazabilidad de tu carga de punta a punta.',
+      bullets: ['Reserva de espacio con navieras aliadas', 'Consolidación de carga LCL', 'Seguimiento de contenedor en tiempo real', 'Gestión documentaria de embarque']
+    },
+    aereo: {
+      icon: '<i class="fa-solid fa-plane"></i>',
+      title: 'Transporte Aéreo',
+      description: 'Envíos internacionales urgentes o de alto valor, con gestión completa de documentación IATA y seguimiento en tiempo real desde el origen hasta el destino final.',
+      bullets: ['Cotización expedita para carga urgente', 'Gestión de documentación IATA', 'Seguimiento en tiempo real', 'Coordinación puerta a puerta']
+    },
+    terrestre: {
+      icon: '<svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="7" width="14" height="10" rx="1"/><path d="M15 10h4l3 3v4h-7z"/><circle cx="6" cy="19" r="1.6"/><circle cx="18" cy="19" r="1.6"/></svg>',
+      title: 'Transporte Terrestre',
+      description: 'Traslado de carga sobredimensionada y convencional con flota propia y aliada. Evaluamos cada ruta y gestionamos los permisos necesarios antes de que la carga salga del origen.',
+      bullets: ['Flota propia y aliada para carga sobredimensionada', 'Evaluación de rutas y permisos especiales', 'Escolta y señalización cuando se requiere', 'Seguimiento GPS de la unidad']
+    },
+    aduanas: {
+      icon: '<i class="fa-solid fa-file-shield"></i>',
+      title: 'Aduanas y Seguro de Carga',
+      description: 'Agenciamiento aduanero, asesoría en comercio exterior y pólizas de seguro internacional para que tu carga esté cubierta y en regla en cada tramo del proceso.',
+      bullets: ['Agenciamiento aduanero de importación y exportación', 'Asesoría en comercio exterior', 'Pólizas de seguro internacional', 'Gestión de levante y liberación de carga']
+    }
+  };
+
+  const modal = document.getElementById('service-modal');
+  const modalIcon = document.getElementById('modal-icon');
+  const modalTitle = document.getElementById('modal-title');
+  const modalDescription = document.getElementById('modal-description');
+  const modalBullets = document.getElementById('modal-bullets');
+  const modalClose = document.getElementById('service-modal-close');
+  const modalBackdrop = document.getElementById('service-modal-backdrop');
+  let lastFocusedEl = null;
+
+  function openServiceModal(id) {
+    const data = SERVICES_DATA[id];
+    if (!data) return;
+    modalIcon.innerHTML = data.icon;
+    modalTitle.textContent = data.title;
+    modalDescription.textContent = data.description;
+    modalBullets.innerHTML = data.bullets.map(b =>
+      '<li class="flex items-start gap-3"><i class="fa-solid fa-circle-check text-gold-500 mt-1"></i><span class="text-slate-700">' + b + '</span></li>'
+    ).join('');
+    lastFocusedEl = document.activeElement;
+    modal.classList.add('is-open');
+    document.body.style.overflow = 'hidden';
+    modalClose.focus();
+  }
+
+  function closeServiceModal() {
+    modal.classList.remove('is-open');
+    document.body.style.overflow = '';
+    if (lastFocusedEl) lastFocusedEl.focus();
+  }
+
+  document.querySelectorAll('.service-more').forEach(btn => {
+    btn.addEventListener('click', () => openServiceModal(btn.dataset.service));
+  });
+  modalClose.addEventListener('click', closeServiceModal);
+  modalBackdrop.addEventListener('click', closeServiceModal);
+  document.getElementById('modal-cta').addEventListener('click', closeServiceModal);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('is-open')) closeServiceModal();
+  });
 </script>
 
 </body>
